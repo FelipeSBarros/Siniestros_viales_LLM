@@ -1,0 +1,120 @@
+Lee atentamente el contenido de la noticia relacionada con siniestro(s) vial(es) y extrae la información solicitada exclusivamente a partir del texto.
+No infieras ni completes información que no esté explícitamente mencionada en la noticia.
+Formato de salida
+- Si la noticia describe un solo siniestro vial, retorna un diccionario.
+- Si la noticia describe dos o más siniestros viales, retorna una lista de diccionarios, donde cada diccionario represente un siniestro distinto.
+
+Estructura del diccionario
+Cada diccionario debe contener únicamente las siguientes llaves:
+1. "Misiones"
+- Valor: "sí" o "no"
+- Indica si el siniestro vial ocurrió en la provincia de Misiones, Argentina, según la información explícita de la noticia.
+
+2. "Vehiculo"
+- Solo debe ser informado si "Misiones" = "sí".
+- El valor debe ser exactamente una (y solo una) de las siguientes categorías predefinidas, respetando mayúsculas, espacios y escritura tal como se presentan:
+[
+'Motocicleta y camioneta',
+'Colectivo y motocicleta',
+'Automovil',
+'Automovil y bicicleta',
+'Automovil y motocicleta',
+'Camionetas',
+'Motocicleta',
+'Camioneta y motocicleta',
+'Bicicleta',
+'Motocicletas',
+'Automoviles',
+'Camioneta',
+'Camión y automovil',
+'Colectivo',
+'Camioneta y automovil',
+'camión con trailer',
+'Motocicleta y bicicleta',
+'Camión y motocicleta',
+'Utilitario y motocicleta',
+'Camión',
+'2 motocicletas',
+' Automoviles',
+'Automoviles y motocicleta',
+'Camionetas y automoviles',
+'Camión y automoviles',
+'Camiomes y automovil',
+'Utilitario ',
+'Camión y camioneta',
+'Jeep y automovil',
+'Camión, Camioneta y automovil',
+'Tractor con acoplado',
+'Monopatin',
+'Camión,camioneta y automovil',
+' Camioneta y Motocicleta',
+' Camiones y automovil',
+'Motoniveladora y motocicleta',
+'Tractor ',
+'huyo',
+'Camionetas,  automovil y  motocicleta',
+'Colectivo y vacas',
+'Camioneta con trailer y motocicleta',
+'Camiones',
+'Camión con acoplado',
+'Colectivos',
+'Tractor',
+'Colectivo y tipo combi',
+'Automovil y motocicletas',
+'Motocicletas y automovil',
+' Camioneta y automovil',
+'Semiremolque y motocicleta',
+'Camión recolector',
+'Colectivo y automovil',
+'Automovil, camión',
+'Camioneta y automoviles',
+'Colectivo, automovil y motocicleta',
+'Automovil,camioneta',
+'Bicicleta y automovil',
+'Automovil, camioneta',
+'camiones y camioneta',
+'No indentificable'
+]
+- Selecciona la categoría que mejor represente exactamente los vehículos involucrados según la noticia.
+- Si no es posible identificar con claridad los vehículos o no existe una categoría adecuada, utiliza "No indentificable".
+
+3. "Decesos"
+- Valor: número entero.
+- Corresponde a la cantidad de personas fallecidas informadas explícitamente en la noticia para ese siniestro.
+- Si no se mencionan fallecidos, usar 0.
+
+4. "Lesionados"
+- Valor: número entero.
+- Corresponde a la cantidad de personas lesionadas informadas explícitamente en la noticia para ese siniestro.
+- Si no se mencionan lesionados, usar 0.
+
+Reglas importantes
+- No inventes datos.
+- No combines siniestros distintos en un mismo diccionario.
+- No devuelvas texto explicativo: solo el diccionario o la lista de diccionarios.
+- Respeta estrictamente los valores permitidos para cada campo.
+
+Llaves adicionales (estructura en desarrollo)
+
+Las siguientes llaves deben ser incluidas en cada diccionario retornado.
+Ten en cuenta que la información periodística no sigue una estructura formalizada, por lo que estas variables pueden no estar siempre presentes o pueden aparecer redactadas de forma imprecisa.
+
+5. "Hora"
+Informar la hora en la que ocurrió el siniestro, únicamente si está explícitamente mencionada en la noticia.
+- La hora puede estar informada en formato 12 horas (a. m./p. m.) o 24 horas.
+- Si la hora está expresada en formato de 12 horas, convertirla obligatoriamente a formato de 24 horas antes de retornarla, para uniformizar el resultado.
+- Retornar la hora en formato de texto "HH:MM" (24 horas).
+- Si la noticia no menciona ninguna hora, retornar exactamente el valor:
+- "No informado"
+
+6. "ubicación"
+- Si la noticia menciona una calle, intersección, ruta, kilómetro, barrio, localidad o cualquier referencia espacial concreta donde ocurrió el siniestro, retornar textualmente el trecho relevante.
+- No normalizar ni reinterpretar la ubicación: devolverla tal como aparece en la noticia.
+- Si no se menciona ninguna información de localización específica, retornar:
+- "No informado"
+
+Reglas específicas para estas llaves
+- No inferir horarios ni ubicaciones a partir de contexto indirecto.
+- No inventar valores.
+- Si la información es ambigua o incompleta, priorizar "No informado".
+- Estas llaves deben coexistir con las ya definidas previamente dentro del mismo diccionario.

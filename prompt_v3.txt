@@ -1,0 +1,101 @@
+Lee atentamente el contenido de la noticia relacionada con siniestro(s) vial(es) y extrae la información solicitada
+exclusivamente a partir del texto. No infieras, completes ni deduzcas información que no esté explícitamente mencionada.
+
+FORMATO DE SALIDA
+- Si la noticia describe un solo siniestro vial, retorna un diccionario.
+- Si describe dos o más siniestros viales, retorna una lista de diccionarios.
+- No devuelvas texto explicativo: solo el diccionario o la lista.
+
+ESTRUCTURA DEL DICCIONARIO
+Cada diccionario debe contener únicamente las siguientes llaves:
+
+"Misiones"
+- Valor: "sí" o "no".
+- Indica si el siniestro ocurrió en la provincia de Misiones, Argentina.
+
+"Vehiculo"
+- Informar solo si "Misiones" = "sí".
+- Seleccionar exactamente una categoría de la lista predefinida (respetar escritura literal):
+[
+'Automovil',
+'Automovil y bicicleta',
+'Automovil y motocicleta',
+'Automovil, camión',
+'Automoviles',
+'Camioneta',
+'Camioneta y automovil',
+'Camionetas y automoviles',
+'Camioneta y motocicleta',
+'Camionetas',
+'Camión',
+'Camión y automovil',
+'Camión y automoviles',
+'Camión y motocicleta',
+'Camión y camioneta',
+'Camión con trailer',
+'Camión, Camioneta y automovil',
+'Camiones y automovil',
+'Camiones y camioneta',
+'Camiones',
+'Motocicleta',
+'Motocicleta y camioneta',
+'Motocicleta y bicicleta',
+'Motocicletas',
+'Colectivo',
+'Colectivo y motocicleta',
+'Colectivo y automovil',
+'Colectivos',
+'Bicicleta',
+'Tractor',
+'Monopatin',
+'Motoniveladora y motocicleta',
+'Tractor',
+'Tractores',
+'No indentificable'
+]
+- Si no es posible identificar con claridad, usar "No indentificable".
+
+"Decesos"
+- Número entero.
+- Cantidad de personas fallecidas mencionadas explícitamente.
+- Si no se mencionan fallecidos, usar 0.
+
+"Lesionados"
+- Número entero.
+- Cantidad de personas lesionadas mencionadas explícitamente.
+- Si no se mencionan lesionados, usar 0.
+
+"Hora"
+- Informar solo si la hora está explícitamente mencionada.
+- Aceptar formato 12 h o 24 h.
+- Convertir siempre a formato 24 h.
+- Retornar como texto "HH:MM".
+
+REGLAS PARA INTERPRETACIÓN DE HORA
+- "a las 3 de la mañana" → "03:00"
+- "a las 8 de la noche" → "20:00"
+- "pasadas las 22" → "22:00"
+- "cerca de las 6" → "06:00"
+- Si la expresión es ambigua o no permite conversión clara → "Ambigua"
+- Si no se menciona hora → "No informado"
+
+"Ubicación"
+- Retornar textualmente cualquier referencia espacial explícita (calle, intersección, ruta, km o barrio).
+- No normalizar ni corregir el texto.
+- Si no se menciona ubicación concreta → "No informado"
+
+"Ciudad"
+- Retornar textualmente cualquier referencia a una determnada localidad
+- No normalizar ni corregir el texto.
+- Si no se menciona ubicación concreta → "No informado"
+
+REGLAS GENERALES
+- No inventes datos.
+- No combines siniestros distintos.
+- No normalices información ausente.
+- Prioriza "No informado" ante cualquier duda.
+
+Por ejemplo, acorde a la siguiente noticia:
+{"cuerpo": "Esta mañana, un siniestro vial tuvo lugar en el kilómetro 977 de la ruta nacional 14, en San Vicente . Un automóvil Chevrolet Prisma embistió a una joven de 18 años, identificada como Belén M., quien fue trasladada al hospital local para recibir atención médica y determinar la gravedad de sus lesiones. Tras el impacto, el conductor del vehiculo huyó del lugar. Sin embargo, gracias a un operativo cerrojo implementado por la Policía, el automóvil fue interceptado en el Barrio San Roque González. El auto presentaba visibles daños en la parte delantera. En el vehiculo viajaban un joven de 25 años, quien lo conducía, y otros tres ocupantes. Todos resultaron ilesos y fueron preventivamente demorados por las autoridades para investigar lo sucedido."}
+Se espera el siguiente resultado:
+{"misiones": "sí", "ubicación":"kilómetro 977 de la ruta nacional 14, San Vicente", "ciudad": "San Vicente", "vehiculo": "Auto", "lesionados": 1, "decesos": 0}

@@ -1,0 +1,93 @@
+Extrae información solo del texto de noticias sobre siniestros viales.
+No infieras ni inventes datos.
+
+SALIDA
+- 1 siniestro → diccionario
+- ≥2 siniestros → lista de diccionarios
+- Sin texto explicativo
+- listado de categorias:
+[
+'Motocicleta y camioneta',
+'Colectivo y motocicleta',
+'Automovil',
+'Automovil y bicicleta',
+'Automovil y motocicleta',
+'Camionetas',
+'Motocicleta',
+'Camioneta y motocicleta',
+'Bicicleta',
+'Motocicletas',
+'Automoviles',
+'Camioneta',
+'Camión y automovil',
+'Colectivo',
+'Camioneta y automovil',
+'camión con trailer',
+'Motocicleta y bicicleta',
+'Camión y motocicleta',
+'Utilitario y motocicleta',
+'Camión',
+'2 motocicletas',
+' Automoviles',
+'Automoviles y motocicleta',
+'Camionetas y automoviles',
+'Camión y automoviles',
+'Camiomes y automovil',
+'Utilitario ',
+'Camión y camioneta',
+'Jeep y automovil',
+'Camión, Camioneta y automovil',
+'Tractor con acoplado',
+'Monopatin',
+'Camión,camioneta y automovil',
+' Camioneta y Motocicleta',
+' Camiones y automovil',
+'Motoniveladora y motocicleta',
+'Tractor ',
+'huyo',
+'Camionetas,  automovil y  motocicleta',
+'Colectivo y vacas',
+'Camioneta con trailer y motocicleta',
+'Camiones',
+'Camión con acoplado',
+'Colectivos',
+'Tractor',
+'Colectivo y tipo combi',
+'Automovil y motocicletas',
+'Motocicletas y automovil',
+' Camioneta y automovil',
+'Semiremolque y motocicleta',
+'Camión recolector',
+'Colectivo y automovil',
+'Automovil, camión',
+'Camioneta y automoviles',
+'Colectivo, automovil y motocicleta',
+'Automovil,camioneta',
+'Bicicleta y automovil',
+'Automovil, camioneta',
+'camiones y camioneta',
+'No indentificable'
+]
+
+LLAVES POR SINIESTRO
+- "Misiones": "sí" / "no"
+- "Vehiculo":
+  - Solo si Misiones = "sí"
+  - Elegir una categoría exacta de la lista predefinida
+  - Si no es claro → "No indentificable"
+- "Decesos": entero (0 si no se menciona)
+- "Lesionados": entero (0 si no se menciona)
+- "Hora":
+  - "HH:MM" en 24 h si se menciona
+  - Convertir desde 12 h si aplica
+  - Expresiones aproximadas → usar la hora indicada
+  - Ambigua o ausente → "No informado"
+- "ubicación":
+  - Trecho textual de calle/ruta/barrio/km/localidad
+  - Ausente → "No informado"
+
+REGLAS
+- No combinar siniestros
+- No normalizar texto
+- Priorizar "No informado"
+- Respetar valores literales
