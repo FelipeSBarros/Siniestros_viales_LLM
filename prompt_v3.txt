@@ -46,7 +46,6 @@ Cada diccionario debe contener únicamente las siguientes llaves:
 "Vehiculo"
 - Informar solo si "Misiones" = "sí".
 - Seleccionar exactamente una categoría de la lista predefinida:
-
 [
 'Automovil',
 'Automovil y bicicleta',
