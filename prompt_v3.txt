@@ -1,13 +1,43 @@
-Lee atentamente el contenido de la noticia relacionada con siniestro(s) vial(es) y extrae la información solicitada
-exclusivamente a partir del texto. No infieras, completes ni deduzcas información que no esté explícitamente mencionada.
+Lee atentamente el contenido de la noticia.
+
+PRIMER PASO (CLASIFICACIÓN)
+Antes de extraer cualquier información, determina si la noticia describe
+explícitamente al menos un SINIESTRO VIAL.
+
+Se considera SINIESTRO VIAL únicamente cuando el texto menciona de forma clara
+un hecho de tránsito ocurrido en la vía pública que involucre uno o más vehículos,
+con colisión, atropello, despiste, vuelco o impacto.
+
+NO se considera siniestro vial cuando:
+- La noticia trata sobre operativos policiales sin accidente.
+- Se mencionan vehículos sin que ocurra un hecho vial.
+- Es una noticia política, judicial, social, deportiva u otra sin accidente.
+- El hecho ocurre fuera de la vía pública (taller, depósito, vivienda).
+- El texto es demasiado ambiguo para confirmar un accidente de tránsito.
+
+Si la noticia NO es un siniestro vial:
+- Retorna UN SOLO diccionario
+- Todas las llaves deben tener el valor `None`
+- No devuelvas texto explicativo adicional
 
 FORMATO DE SALIDA
-- Si la noticia describe un solo siniestro vial, retorna un diccionario.
-- Si describe dos o más siniestros viales, retorna una lista de diccionarios.
+- Si la noticia describe un solo siniestro vial → retorna un diccionario.
+- Si describe dos o más siniestros viales → retorna una lista de diccionarios.
 - No devuelvas texto explicativo: solo el diccionario o la lista.
 
 ESTRUCTURA DEL DICCIONARIO
 Cada diccionario debe contener únicamente las siguientes llaves:
+
+"nuevo siniestro"
+- Valor: "sí" o "no".
+- Informar "sí" cuando la noticia relata un siniestro vial nuevo.
+- Informar "no" cuando la noticia corresponde a una actualización,
+  ampliación o seguimiento de un siniestro relatado previamente.
+- Indicadores de actualización incluyen expresiones como:
+  "ampliación", "actualización", "según se informó ayer",
+  "el siniestro ocurrido", "continúa internado", "parte médico",
+  "horas después", "el hecho registrado".
+- Si no es posible determinarlo con claridad, usar "sí".
 
 "Misiones"
 - Valor: "sí" o "no".
@@ -15,7 +45,8 @@ Cada diccionario debe contener únicamente las siguientes llaves:
 
 "Vehiculo"
 - Informar solo si "Misiones" = "sí".
-- Seleccionar exactamente una categoría de la lista predefinida (respetar escritura literal):
+- Seleccionar exactamente una categoría de la lista predefinida:
+
 [
 'Automovil',
 'Automovil y bicicleta',
@@ -58,12 +89,12 @@ Cada diccionario debe contener únicamente las siguientes llaves:
 "Decesos"
 - Número entero.
 - Cantidad de personas fallecidas mencionadas explícitamente.
-- Si no se mencionan fallecidos, usar 0.
+- Si no se mencionan fallecidos, usar "No indetificable".
 
 "Lesionados"
 - Número entero.
 - Cantidad de personas lesionadas mencionadas explícitamente.
-- Si no se mencionan lesionados, usar 0.
+- Si no se mencionan lesionados, usar "No indetificable".
 
 "Hora"
 - Informar solo si la hora está explícitamente mencionada.
@@ -76,26 +107,37 @@ REGLAS PARA INTERPRETACIÓN DE HORA
 - "a las 8 de la noche" → "20:00"
 - "pasadas las 22" → "22:00"
 - "cerca de las 6" → "06:00"
-- Si la expresión es ambigua o no permite conversión clara → "Ambigua"
+- Si la expresión es ambigua → "Ambigua"
 - Si no se menciona hora → "No informado"
 
 "Ubicación"
-- Retornar textualmente cualquier referencia espacial explícita (calle, intersección, ruta, km o barrio).
+- Retornar textualmente cualquier referencia espacial explícita
+  (calle, intersección, ruta, km o barrio).
 - No normalizar ni corregir el texto.
-- Si no se menciona ubicación concreta → "No informado"
+- Si no se menciona → "No informado"
 
 "Ciudad"
-- Retornar textualmente cualquier referencia a una determnada localidad
+- Retornar textualmente cualquier referencia explícita a una localidad.
 - No normalizar ni corregir el texto.
-- Si no se menciona ubicación concreta → "No informado"
+- Si no se menciona → "No informado"
+
+"mujeres"
+- Número entero.
+- Cantidad de personas identificadas explícitamente como mujeres en el texto
+  (por ejemplo: "una mujer", "dos mujeres", "una joven", "la víctima femenina").
+- No inferir género por nombres propios ni por rol.
+- Si no se menciona ninguna mujer, usar "No indetificable".
+
+"hombres"
+- Número entero.
+- Cantidad de personas identificadas explícitamente como hombres en el texto
+  (por ejemplo: "un hombre", "dos hombres", "un joven", "el conductor").
+- No inferir género por nombres propios ni por rol.
+- Si no se menciona ningún hombre, usar "No indetificable".
 
 REGLAS GENERALES
 - No inventes datos.
 - No combines siniestros distintos.
+- No infieras género cuando no esté explícitamente indicado.
 - No normalices información ausente.
-- Prioriza "No informado" ante cualquier duda.
-
-Por ejemplo, acorde a la siguiente noticia:
-{"cuerpo": "Esta mañana, un siniestro vial tuvo lugar en el kilómetro 977 de la ruta nacional 14, en San Vicente . Un automóvil Chevrolet Prisma embistió a una joven de 18 años, identificada como Belén M., quien fue trasladada al hospital local para recibir atención médica y determinar la gravedad de sus lesiones. Tras el impacto, el conductor del vehiculo huyó del lugar. Sin embargo, gracias a un operativo cerrojo implementado por la Policía, el automóvil fue interceptado en el Barrio San Roque González. El auto presentaba visibles daños en la parte delantera. En el vehiculo viajaban un joven de 25 años, quien lo conducía, y otros tres ocupantes. Todos resultaron ilesos y fueron preventivamente demorados por las autoridades para investigar lo sucedido."}
-Se espera el siguiente resultado:
-{"misiones": "sí", "ubicación":"kilómetro 977 de la ruta nacional 14, San Vicente", "ciudad": "San Vicente", "vehiculo": "Auto", "lesionados": 1, "decesos": 0}
+- Prioriza "No informado" o "No indetificable" ante cualquier duda.
