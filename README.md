@@ -49,10 +49,10 @@ Por eso se ha creado el [`data-cleaning`](./src/extrai/post-processing/data_clea
 
 # Corriendo el modelo
 
-`poetry run ollama-batch -f src/extrai/news/sample_primera_edicion_siniestros_viales_2024.json --json-append id --prompt-file src/extrai/prompts/prompt_v3.txt --json-property=cuerpo -m deepseek-r1:8b > deepseek-r1:8b_result.json`
+`poetry run ollama-batch -f /news/sample_primera_edicion_siniestros_viales_2024.json --json-append id --prompt-file src/extrai/prompts/prompt_v3.txt --json-property=cuerpo -m deepseek-r1:8b > /results/deepseek-r1:8b_result.json`
 
 ```
 for model in deepseek-r1:8b gemma3:4b llama3.2 test_wqp_deepseek:latest; do
-    poetry run ollama-batch -f src/extrai/news/sample_primera_edicion_siniestros_viales_2024.json --prompt-file src/extrai/prompts/prompt_v3.txt --json-property=cuerpo -m $model > src/extrai/results/result_"$model".json;
+    poetry run ollama-batch -f /news/sample_primera_edicion_siniestros_viales_2024.json --prompt-file src/extrai/prompts/prompt_v3.txt --json-property=cuerpo -m $model > /results/"$model"_result.json;
     done
 ```
